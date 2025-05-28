@@ -23,6 +23,12 @@ builder.Services.AddSingleton(new TelegramBotService("7564843985:AAEsKVRCb_UW07S
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<BooksDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
