@@ -84,7 +84,7 @@ namespace MyApi.Services
                     chatId: chat,
                     text: "Вітаю! Ось доступні команди:\n" +
                           "/start — показати перелік команд\n" +
-                          "/search <назва книги> — пошук книги за назвою\n" +
+                          "/search <назва книги> — пошук книги за назвою чи автором \n" +
                           "/save OLID — зберегти книгу в обране\n" +
                           "/rate OLID 5 — поставити рейтинг\n" +
                           "/delete OLID — видалити з обраного\n" +
@@ -110,7 +110,7 @@ namespace MyApi.Services
                 var get = await http.GetAsync($"http://localhost:5010/api/Books/{olid}");
                 if (!get.IsSuccessStatusCode)
                 {
-                    await bot.SendTextMessageAsync(chat, "❌ Книга не знайдена", cancellationToken: token);
+                    await bot.SendTextMessageAsync(chat, "❌ Книга не знайдена , спробуйте ще раз", cancellationToken: token);
                     return;
                 }
 
@@ -135,7 +135,7 @@ namespace MyApi.Services
 
                 await bot.SendTextMessageAsync(
                     chat,
-                    post.IsSuccessStatusCode ? "✅ Книгу збережено" : "❌ Не вдалося зберегти книгу",
+                    post.IsSuccessStatusCode ? "✅ Книгу збережено" : "❌ Не вдалося зберегти книгу, спробуйте ще раз",
                     cancellationToken: token
                 );
                 return;
@@ -160,7 +160,7 @@ namespace MyApi.Services
 
                 await bot.SendTextMessageAsync(
                     chat,
-                    put.IsSuccessStatusCode ? "⭐ Рейтинг оновлено" : "❌ Не вдалося оновити рейтинг",
+                    put.IsSuccessStatusCode ? "⭐ Рейтинг оновлено" : "❌ Не вдалося оновити рейтинг, спробуйте ще раз",
                     cancellationToken: token
                 );
                 return;
@@ -184,7 +184,7 @@ namespace MyApi.Services
 
                 await bot.SendTextMessageAsync(
                     chat,
-                    del.IsSuccessStatusCode ? "🗑 Книгу видалено" : "❌ Не вдалося видалити книгу",
+                    del.IsSuccessStatusCode ? "🗑 Книгу видалено" : "❌ Не вдалося видалити книгу, спробуйте ще раз",
                     cancellationToken: token
                 );
                 return;
@@ -197,7 +197,7 @@ namespace MyApi.Services
                 var res = await http.GetAsync("http://localhost:5010/api/Books/favorites");
                 if (!res.IsSuccessStatusCode)
                 {
-                    await bot.SendTextMessageAsync(chat, "❌ Не вдалося отримати обране", cancellationToken: token);
+                    await bot.SendTextMessageAsync(chat, "❌ Не вдалося отримати обране, спробуйте ще раз", cancellationToken: token);
                     return;
                 }
 
@@ -229,7 +229,7 @@ namespace MyApi.Services
                 var res = await http.GetAsync("http://localhost:5010/api/history");
                 if (!res.IsSuccessStatusCode)
                 {
-                    await bot.SendTextMessageAsync(chat, "❌ Не вдалося отримати історію", cancellationToken: token);
+                    await bot.SendTextMessageAsync(chat, "❌ Не вдалося отримати історію, спробуйте ще раз", cancellationToken: token);
                     return;
                 }
 
@@ -266,7 +266,7 @@ namespace MyApi.Services
 
                 if (list == null || list.Count == 0)
                 {
-                    await bot.SendTextMessageAsync(chat, "😕 Нічого не знайдено", cancellationToken: token);
+                    await bot.SendTextMessageAsync(chat, "😕 Нічого не знайдено, спробуйте ще раз", cancellationToken: token);
                     return;
                 }
 
